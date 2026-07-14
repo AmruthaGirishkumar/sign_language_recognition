@@ -37,6 +37,7 @@ while True:
             landmarks = []
             for lm in hand_landmarks.landmark:
                 landmarks.extend([lm.x, lm.y, lm.z])
+                print(np.min(landmarks), np.max(landmarks), np.mean(landmarks))
             
             if len(landmarks) == model.n_features_in_:
                 prediction = model.predict([landmarks])[0]
