@@ -1,85 +1,226 @@
-# sign_language_recognition
+# Sign Language Recognition
 
-A real-time American Sign Language (ASL) recognition system that converts hand gestures into text and speech using computer vision, machine learning, and a custom Tkinter GUI.
+A real-time American Sign Language (ASL) Recognition System that converts hand gestures into text and speech using Computer Vision, Machine Learning, and a custom Tkinter GUI.
 
-## Features
-- Real-time ASL alphabet recognition using webcam input
-- Accurate letter prediction using MediaPipe hand landmarks and a trained MLPClassifier
-- Sentence formation with support for space, backspace, clear, and speech output
-- Live prediction display with flicker-free performance
-- Fully interactive and themed Tkinter GUI
-- Toggleable ASL gesture guide displayed beside the webcam feed
-- Key controls for sentence manipulation and system actions
+---
 
-## Model Training (Optional)
-If you wish to retrain the model:
-1. Download the ASL Alphabet Dataset from Kaggle  
-   (https://www.kaggle.com/datasets/grassknoted/asl-alphabet)
-2. Extract it to this path:
-   sign_language_recognition/
-   └── dataset/
-       └── asl_alphabet_train/
-           ├── A/
-           ├── B/
-           ├── C/
-           └── ... (up to Z)
-3. Run the following scripts in order:
-   - extract_landmarks_from_asl_dataset.py  
-   - generate_landmark_data.py  
-   - train_model.py  
-   - test_model.py
+# Overview
 
+This project recognizes static ASL hand gestures captured through a webcam and converts them into text in real time. It uses MediaPipe to detect hand landmarks and a trained MLPClassifier model from Scikit-learn to classify gestures.
 
-## Structure
-- `final_app_tkinter.py` – Main GUI application for real-time sign language recognition
-- `requirements.txt` – List of Python libraries required for running the project
-- `asl_landmarks_dataset.npy` – Full landmark dataset extracted from ASL alphabet images
-- `extract_landmarks_from_asl_dataset.py` – Script to extract landmarks directly from the image dataset
-- `generate_landmark_data.py` – Extracts and saves hand landmarks and labels from images
-- `gesture_guide.png` – ASL alphabet image displayed in the GUI as a reference
-- `label_map.npy` – Mapping of label names to encoded numerical values
-- `landmark_data.npy` – Numpy array of hand landmark features used for training
-- `landmark_labels.npy` – Numpy array of labels corresponding to training data
-- `predict_letters.py` – Live letter prediction using webcam feed
-- `predict_to_sentence.py` – (Legacy) script for building sentences from predictions
-- `scaler.pkl` – Scaler object used to normalize input features before prediction
-- `sign_language_model.pkl` – Trained MLPClassifier model for gesture classification
-- `test_model.py` – Tests model accuracy and performance on test data
-- `train_model.py` – Trains the sign language model using landmark features and labels
-- `x_data.npy` – Combined input features (training set)
-- `X_test.npy` – Input features used for testing the model
-- `x_y_test_files.py` – Script to split data and generate test files
-- `y_labels.npy` – Labels used for training the model
-- `y_test.npy` – Labels used for testing
+The application also supports sentence formation, speech output, and an interactive graphical user interface.
 
-## Installation Instructions
-1. Clone the repository
-2. Install required Python libraries listed in `requirements.txt`
-3. Generate landmark data using `generate_landmark_data.py`
-4. Train the model using `train_model.py`
-5. Run the main GUI using `final_app_tkinter.py`
+---
 
-## Controls
-- `Enter`: Add current prediction to sentence
-- `Space`: Add a space
-- `Backspace`: Delete the last character
-- `C`: Clear the current sentence
-- `S`: Speak the sentence aloud
-- `G`: Toggle gesture guide display
-- `Q`: Quit the application
+# Features
 
-## Model Information
-- Input Features: 63 values from MediaPipe hand landmarks
-- Model Type: MLPClassifier (from scikit-learn)
-- Accuracy: Approximately 99% on test data
-- Preprocessing: StandardScaler used for feature normalization
-- Dataset: ASL alphabet image dataset
+- Real-time ASL alphabet recognition using a webcam
+- Hand landmark detection using MediaPipe
+- Gesture classification using a trained MLPClassifier
+- Sentence formation from predicted letters
+- Text-to-Speech support
+- Add Letter, Space, Backspace, and Clear functions
+- Interactive Tkinter graphical user interface
+- Light/Dark theme toggle
+- Toggleable ASL gesture guide
+- Smooth real-time prediction
 
-## Usage Guidelines
-- Use consistent hand positioning and good lighting for optimal predictions.
-- The application window displays the webcam feed with the current prediction and the sentence being formed.
-- The ASL gesture guide can be toggled on or off for reference.
-- All key controls work repeatedly and are supported by on-screen buttons.
+---
 
-## Author
-Amrutha Girishkumar
+# Technology Stack
+
+- Python
+- OpenCV
+- MediaPipe
+- NumPy
+- Scikit-learn
+- Tkinter
+- Joblib
+- pyttsx3
+
+---
+
+# Project Structure
+
+```
+sign_language_recognition/
+│
+├── app/
+│   └── final_app_tkinter.py
+│
+├── data/
+│   ├── x_data.npy
+│   ├── y_labels.npy
+│   ├── X_test.npy
+│   ├── y_test.npy
+│   ├── landmark_data.npy
+│   └── landmark_labels.npy
+│
+├── dataset/
+│   └── asl_alphabet_test/
+│
+├── model/
+│   ├── sign_language_model.pkl
+│   ├── scaler.pkl
+│   ├── label_map.json
+│   └── model_metadata.json
+│
+├── scripts/
+│   ├── extract_landmarks_from_asl_dataset.py
+│   ├── generate_landmark_data.py
+│   ├── train_model.py
+│   ├── test_model.py
+│   ├── predict_letters.py
+│   └── predict_to_sentence.py
+│
+├── tests/
+├── feature_utils.py
+├── requirements.txt
+└── README.md
+```
+
+---
+
+# Installation
+
+## 1. Clone the repository
+
+```bash
+git clone https://github.com/AmruthaGirishkumar/sign_language_recognition.git
+
+cd sign_language_recognition
+```
+
+## 2. Create a virtual environment
+
+```bash
+python -m venv venv
+```
+
+## 3. Activate the virtual environment
+
+Windows
+
+```bash
+venv\Scripts\activate
+```
+
+Linux/macOS
+
+```bash
+source venv/bin/activate
+```
+
+## 4. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+## 5. Run the application
+
+```bash
+cd app
+
+python final_app_tkinter.py
+```
+
+---
+
+# Model Training (Optional)
+
+To retrain the model:
+
+## Step 1
+
+Download the ASL Alphabet Dataset from Kaggle.
+
+https://www.kaggle.com/datasets/grassknoted/asl-alphabet
+
+## Step 2
+
+Extract it to the following directory:
+
+```
+dataset/
+└── asl_alphabet_train/
+    ├── A/
+    ├── B/
+    ├── C/
+    └── ...
+```
+
+## Step 3
+
+Run the following scripts in order:
+
+```
+extract_landmarks_from_asl_dataset.py
+
+generate_landmark_data.py
+
+train_model.py
+
+test_model.py
+```
+
+---
+
+# Controls
+
+| Key | Function |
+|------|----------|
+| Enter | Add predicted letter |
+| Space | Insert space |
+| Backspace | Delete last character |
+| C | Clear sentence |
+| S | Speak sentence |
+| G | Toggle gesture guide |
+| T | Toggle theme |
+| Q | Quit application |
+
+---
+
+# Model Information
+
+| Parameter | Value |
+|-----------|-------|
+| Model | MLPClassifier |
+| Input Features | 63 MediaPipe Hand Landmark values |
+| Preprocessing | StandardScaler |
+| Framework | Scikit-learn |
+| Dataset | ASL Alphabet Dataset |
+| Test Accuracy | Approximately 99% on the prepared test dataset |
+
+> Note: Real-world prediction accuracy depends on lighting conditions, camera quality, hand positioning, and gesture consistency.
+
+---
+
+# Usage Guidelines
+
+- Use the application in a well-lit environment.
+- Ensure only one hand is visible to the webcam.
+- Hold each gesture steadily for accurate prediction.
+- Use the gesture guide if required.
+- The sentence can be spoken using the built-in Text-to-Speech functionality.
+
+---
+
+# Future Improvements
+
+- Dynamic sign recognition
+- Word-level prediction
+- Sentence auto-completion
+- Deep learning models (CNN/LSTM/Transformer)
+- Web application deployment
+- Mobile application support
+
+---
+
+# Author
+
+**Amrutha Girishkumar**
+
+# License
+
+This project is intended for educational and research purposes.
